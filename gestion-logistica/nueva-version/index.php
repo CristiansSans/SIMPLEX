@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+		<title>::simplex</title>
+		<link rel="stylesheet" type="text/css" href="http://common.capturactiva.com/resources/css/clifton.css" />
+		<script type="text/javascript" charset="utf-8" src="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all.js"></script>
+		<script type="text/javascript" charset="utf-8" src="http://cdn.sencha.io/ext-4.1.0-gpl/locale/ext-lang-es.js"></script>
+		<script type="text/javascript" src="app/app.js"></script>
+		<script type="text/javascript" src="js/capturactiva.functions.js"></script>
+		
+		<style>
+			body{
+				overflow:hidden;
+			}
+
+			::-webkit-scrollbar {
+				padding-top:5px;
+				width: 5px;
+				height: 5px;
+			}
+
+			::-webkit-scrollbar-thumb {
+				/*background-color:#808080;*/
+				background-color:#bfbfbf;
+			}
+
+			.x-accordion-hd{
+				border-top-color:#ccc !important;
+			}
+			
+			.x-border-box .x-form-text {
+				height: 30px;
+			}
+			
+			.x-border-box .x-form-trigger {
+				height: 30px;
+			}
+			
+			.x-form-field, .x-form-display-field {
+				margin: 0 0 0 0;
+				font: normal 13px "Helvetica Neue",Helvetica,Arial,sans-serif;
+				color: #555;
+			}
+			
+			.x-form-trigger {
+				background-image: -moz-linear-gradient(top, white,white);
+				background-image: -o-linear-gradient(top, white,white);
+				background-image: linear-gradient(top, white,white);
+				background-image: url(http://common.capturactiva.com/resources/themes/images/halflings.png);
+				background-position: -305px -112px;
+				width: 30px;
+				border: 1px solid #CCC;
+				border-left: 0;
+				cursor: pointer;
+				cursor: hand;
+				overflow: hidden;			
+			}
+
+			.x-form-trigger-over {
+				opacity:0.7;
+			}
+
+			.x-form-trigger-last {
+				background-color: #EEE;
+				-webkit-border-radius: 0 3px 3px 0;
+				-moz-border-radius: 0 3px 3px 0;
+				-ms-border-radius: 0 3px 3px 0;
+				-o-border-radius: 0 3px 3px 0;
+				border-radius: 0 3px 3px 0;
+			}			
+
+			.x-form-arrow-trigger {
+				background-position: -305px -112px;
+			}
+
+			.x-form-date-trigger {
+				background-position: -184px -113px;
+			}
+
+			.x-form-trigger-wrap-focus .x-form-trigger {
+				border-bottom-color: #C3C3C3;
+				background-position: -305px -112px;
+			}
+
+			.x-form-trigger-wrap-focus .x-form-date-trigger {
+				border-bottom-color: #C3C3C3;
+				background-position: -184px -113px;
+			}
+
+			.x-column-header {
+				border-width: 1px;
+			}
+
+			.x-panel-header-text-default {
+				font-family: "Helvetica Neue",Helvetica,tahoma,Arial,sans-serif;
+				color: #555;		
+				font-size: 13px;
+				height:30px;
+			}			
+
+			.x-grid-row {
+				vertical-align: middle;
+			}
+
+			.x-grid-row .x-grid-cell {
+				font-size: 11px;
+			}
+			
+			.x-mask.splashscreen {
+				background-color: white;
+				opacity: 1;
+			}
+
+			.x-mask-msg.splashscreen,
+			.x-mask-msg.splashscreen div {
+				font-size: 13px;
+				padding: 20px 5px 5px 5px;
+				border: none;
+				background-color: transparent;
+				background-position: top center;
+				text-align:center;
+			}
+
+			.x-message-box .x-window-body .x-box-inner {
+				min-height: 110px !important;
+			}
+
+			.x-splash-icon {
+				background-image: url(resources/images/logo/simplex-logotipo-splash.png) !important;
+				margin-top: -70px;
+				margin-bottom: 10px;
+				height:105px;
+				width:159px;
+			}
+
+			#rt-header {
+				min-height: 80px;
+			}
+			
+			#rt-header .rt-block {
+				margin-top: 0px;
+				overflow: visible;
+			}
+
+			.rt-container .rt-grid-3 {
+				width: 220px;
+			}
+
+			.rt-container .rt-grid-9 {
+				width: 700px;
+				min-height: 60px;
+			}
+
+			#rt-header .menutop, #rt-header .menu {
+				font-size: 14px;
+			}
+			
+			.rt-grid-1, 
+			.rt-grid-2, 
+			.rt-grid-3, 
+			.rt-grid-4, 
+			.rt-grid-5, 
+			.rt-grid-6, 
+			.rt-grid-7, 
+			.rt-grid-8, 
+			.rt-grid-9, 
+			.rt-grid-10, 
+			.rt-grid-11, 
+			.rt-grid-12 {
+				display: inline;
+				float: left;
+				position: relative;
+				/*margin-left: 10px;
+				margin-right: 10px;*/
+			}
+			
+			#rt-header .rt-block {
+				margin-top: 0px;
+				overflow: visible;
+			}
+			.rt-block {
+				padding: 0px;
+				margin: 10px 0px;
+				word-wrap: break-word;
+				position: relative;
+			}
+			
+			body #rt-logo {
+				width: 1024px;
+				height: 110px;
+			}
+
+			#rt-logo {
+				background: url(resources/images/logo/simplex-logotipo-1024x110.png) 0 0 no-repeat transparent;
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				display: block;
+				z-index: 100;
+			}
+			
+			div.rt-icons{
+				position:absolute;
+				top:40px;
+				padding: 0px 2px 2px 2px;
+				float:left;
+				height:90px;
+				z-index:9999999;
+			}
+			
+			div.rt-icons a{
+				float:left;
+				/*padding: 4px 10px 6px 9px;*/
+				position: relative;
+				text-decoration: none;
+				width:70px;
+				height:64px;
+			}
+
+			#iconos-header-home{
+				background: url(resources/icons/icon-home-off.png) no-repeat scroll 10px center;
+			}
+
+			#iconos-header-home:hover{
+				background: url(resources/icons/icon-home-on.png) no-repeat scroll 10px center;
+			}
+
+			#iconos-coordinacion{
+				background: url(resources/icons/icon-coordinacion-off.png) no-repeat scroll 10px center;
+			}
+
+			#iconos-coordinacion:hover{
+				background: url(resources/icons/icon-coordinacion-on.png) no-repeat scroll 10px center;
+			}
+			
+			#iconos-tracking{
+				background: url(resources/icons/icon-tracking-off.png) no-repeat scroll 0px transparent;
+			}
+
+			#iconos-tracking:hover{
+				background: url(resources/icons/icon-tracking-on.png) no-repeat scroll 0px transparent;
+			}
+
+			#iconos-invoice{
+				background: url(resources/icons/icon-invoice-off.png) no-repeat scroll 0px transparent;
+			}
+
+			#iconos-invoice:hover{
+				background: url(resources/icons/icon-invoice-on.png) no-repeat scroll 0px transparent;
+			}
+
+			#iconos-masters{
+				background: url(resources/icons/icon-masters-off.png) no-repeat scroll 0px transparent;
+			}
+
+			#iconos-masters:hover{
+				background: url(resources/icons/icon-masters-on.png) no-repeat scroll 0px transparent;
+			}
+
+			#iconos-header-map{
+				background: url(resources/icons/icon-map-off.png) no-repeat scroll 10px center;
+			}
+
+			#iconos-header-map:hover{
+				background: url(resources/icons/icon-map-on.png) no-repeat scroll 10px center;
+			}
+
+			#iconos-header-logout{
+				background: url(resources/icons/icon-logout-off.png) no-repeat scroll 10px center;
+			}
+
+			#iconos-header-logout:hover{
+				background: url(resources/icons/icon-logout-on.png) no-repeat scroll 10px center;
+			}
+			
+			.ux-form-fieldhelptext
+			{
+				font-size: 9px;
+				color: #888888;
+			}			
+		</style>
+	</head>
+</html>

@@ -1,0 +1,37 @@
+<html>
+	<header>
+
+	</header>
+	<script src="../Mantenedores/js/mantenedor-usuario.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		$(function() {
+			cargaGrillaRoles();
+		});
+	</script>
+
+	<body>
+		<input type="hidden" id="txtCodRol" value="0" />
+		<table width="100%">
+			<tr>
+				<td width="50%"><table id="tblRoles"></table><div id="pagTblRoles"></div></td>
+				<td width="50%"><table id="tblUsuarios"></table><div id="pagTblUsuarios"></div></td>
+			</tr>
+		</table>
+		<div id="divFichaPermisos" style="display:none">
+			<table width="100%">
+				<tr>
+					<th width="20%">Rol</th>
+					<td width="80%">
+						<label id="lblNombreRol">-</label>
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" id="txtCodRol"/>
+			<table id="tblPermisos"></table>
+			<div id="pagtblPermisos"></div>
+			<a href="#" onclick="asignarPermisos()">Asignar permisos</a><br/>
+			<a href="#" onclick="quitarPermisos()">Quitar permisos</a>
+		</div>
+	</body>
+</html>

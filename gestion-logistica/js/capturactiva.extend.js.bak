@@ -1,0 +1,680 @@
+Ext.namespace('capturactiva.ux.Generic');
+
+capturactiva.ux.Generic.ColumnModel = function (config) {
+    capturactiva.ux.Generic.ColumnModel.superclass.constructor.call(this, config);
+};
+Ext.extend(capturactiva.ux.Generic.ColumnModel, Ext.grid.ColumnModel, {});
+
+capturactiva.ux.Generic.LinkButton = Ext.extend(Ext.Button, {
+    template: new Ext.Template(
+        '<table border="0" cellpadding="0" cellspacing="0" class="x-btn-wrap"><tbody><tr>',
+        '<td class="x-btn-left"><i> </i></td><td class="x-btn-center"><a class="x-btn-text" href="{1}" target="{2}">{0}</a></td><td class="x-btn-right"><i> </i></td>',
+        "</tr></tbody></table>"),
+
+    onRender: function (ct, position) {
+        var btn, targs = [this.text || ' ', this.href, this.target || "_self"];
+        if (position) {
+            btn = this.template.insertBefore(position, targs, true);
+        } else {
+            btn = this.template.append(ct, targs, true);
+        }
+        var btnEl = btn.child("a:first");
+        btnEl.on('focus', this.onFocus, this);
+        btnEl.on('blur', this.onBlur, this);
+
+        this.initButtonEl(btn, btnEl);
+        Ext.ButtonToggleMgr.register(this);
+    },
+
+    onClick: function (e) {
+        if (e.button != 0) {
+            return;
+        }
+        if (!this.disabled) {
+            this.fireEvent("click", this, e);
+            if (this.handler) {
+                this.handler.call(this.scope || this, this, e);
+            }
+        }
+    }
+
+});
+
+/*
+* Plug-in Generic.Paginbar es un paginador de datos ad-on al control Generic.Grid
+* Definicion:
+*   Paquete     :capturactiva.ux.Generic
+*   Definido en :capturactiva.js
+*   Clase       :PagingBar
+*   Extendido   :Ext.PagingToolbar
+*
+* Llamada/Integracion
+*   var columns = [ 
+*       {"header":"Id Modulo","dataIndex":"liModuNcorr","hidden":true,"sortable":false},
+*       {"header":"Modulo","dataIndex":"lsModuVdesc","hidden":true,"sortable":false}
+*   ];
+*
+*   var dummyST=new capturactiva.ux.Generic.JsonStore({ fields: [name:"liModuNcorr",name:"lsModuVdesc"], url: "/mantenedorfunciones/load/" });
+*   var dummyPB=new capturactiva.ux.Generic.PagingBar({ store: dummyST });
+*   var dummyGR=new capturactiva.ux.Generic.Grid({ store: dummyST, cm: new capturactiva.ux.Generic.ColumnModel(columns), bbar: dummyPB });
+*   dummyST.store();
+*/
+
+capturactiva.ux.Generic.PagingBar = function (config) {
+    capturactiva.ux.Generic.PagingBar.superclass.constructor.call(this, Ext.apply({
+        pageSize: 20,
+        displayInfo: true,
+        remoteSort: true,
+        displayMsg: 'Visualizando {0} - {1} de {2}',
+        emptyMsg: "No existe informacion disponible",
+        items: [
+        ]
+    }, config));
+
+    this.refresh.disabled = true;
+    Ext.state.Manager.getProvider().set('pageSize', config.pageSize);
+}
+Ext.extend(capturactiva.ux.Generic.PagingBar, Ext.PagingToolbar, {});
+
+/*
+* Plug-in Generic.Paginbar es un paginador de datos ad-on al control Generic.Grid
+* Definicion:
+*   Paquete     :capturactiva.ux.Generic
+*   Definido en :capturactiva.js
+*   Clase       :PagingBar
+*   Extendido   :Ext.PagingToolbar
+*
+* Llamada/Integracion
+*   var columns = [
+*       {"header":"Id Modulo","dataIndex":"liModuNcorr","hidden":true,"sortable":false},
+*       {"header":"Modulo","dataIndex":"lsModuVdesc","hidden":true,"sortable":false}
+*   ];
+*
+*   var dummyST=new capturactiva.ux.Generic.JsonStore({ fields: [name:"liModuNcorr",name:"lsModuVdesc"], url: "/mantenedorfunciones/load/" });
+*   var dummyPB=new capturactiva.ux.Generic.PagingBar({ store: dummyST });
+*   var dummyGR=new capturactiva.ux.Generic.Grid({ store: dummyST, cm: new capturactiva.ux.Generic.ColumnModel(columns), bbar: dummyPB });
+*   dummyST.store();
+*/
+
+capturactiva.ux.Generic.Grid = function (config) {
+    /*
+    *   Este patch permite configurar y agregar una columna checkbox
+    */
+    var thisGrid = this;
+    var sm = new Ext.grid.CheckboxSelectionModel();
+    var columns = [];
+
+    if (config.checkboxSelection == undefined)
+        config.checkboxSelection = true
+
+    if (config.checkboxSelection)
+        columns.push(sm);
+
+    Ext.each(config.columns, function (column) {
+        columns.push(column);
+    });
+
+    config.columns = columns;
+
+    config.headerAsText = !Ext.isDefined(config.headerAsText) ? this.headerAsText : config.headerAsText;
+
+    if (!config.headerAsText) 
+        config.header = false;
+
+    capturactiva.ux.Generic.Grid.superclass.constructor.call(this, Ext.apply({
+        width: '100%'
+        , checkboxSelection: true
+        , buttonsBar: []
+        , sm: sm
+        , border: false
+        , stripeRows: true
+        , viewConfig: { forceFit: true }
+        , autoScroll: true
+        , autoWidth: true
+        , store: new capturactiva.ux.Generic.JsonStore({
+            url: config.storeUrl
+        })
+    }, config));
+
+    if (this.getBottomToolbar())
+        this.getBottomToolbar().add('-', this.buttonsBar)
+    else
+        this.addButton(this.buttonsBar)
+}
+Ext.extend(capturactiva.ux.Generic.Grid, Ext.grid.GridPanel, {});
+
+capturactiva.ux.Generic.GridEditor = function (config) {
+    /*
+    *   Este patch permite configurar y agregar una columna checkbox
+    */
+    var thisGrid = this;
+    var sm = new Ext.grid.CheckboxSelectionModel();
+    var columns = [];
+
+    if (config.checkboxSelection == undefined)
+        config.checkboxSelection = true
+
+    if (config.checkboxSelection)
+        columns.push(sm);
+
+    Ext.each(config.columns, function (column) {
+        columns.push(column);
+    });
+
+    config.columns = columns;
+
+    config.headerAsText = !Ext.isDefined(config.headerAsText) ? this.headerAsText : config.headerAsText;
+
+    if (!config.headerAsText)
+        config.header = false;
+
+    capturactiva.ux.Generic.GridEditor.superclass.constructor.call(this, Ext.apply({
+        width: '100%'
+        , checkboxSelection: true
+        , buttonsBar: []
+        , sm: sm
+        , border: false
+        , stripeRows: true
+        , viewConfig: { forceFit: true }
+        , autoScroll: true
+        , autoWidth: true
+        , store: new capturactiva.ux.Generic.JsonStore({
+            url: config.storeUrl
+        })
+    }, config));
+
+    if (this.getBottomToolbar())
+        this.getBottomToolbar().add('-', this.buttonsBar)
+    else
+        this.addButton(this.buttonsBar)
+}
+Ext.extend(capturactiva.ux.Generic.GridEditor, Ext.grid.EditorGridPanel, {});
+
+capturactiva.ux.Generic.GridGroup = Ext.extend(Ext.grid.GridPanel, {
+    initComponent: function () {
+        var config = {
+            viewConfig: { forceFit: true },
+            enableColLock: false,
+            loadMask: true,
+            border: false,
+            stripeRows: true,
+            checkboxSelModel: true,
+            ds: new Ext.data.GroupingStore({
+                url: this.storeUrl,
+                baseParams: this.params,
+                reader: new Ext.data.JsonReader(),
+                autoload: false
+            }),
+            columns: []
+        };
+
+        Ext.apply(this, config);
+        Ext.apply(this.initialConfig, config);
+        capturactiva.ux.Generic.GridGroup.superclass.initComponent.apply(this, arguments);
+    },
+    onRender: function (ct, position) {
+        this.colModel.defaultSortable = true;
+        capturactiva.ux.Generic.GridGroup.superclass.onRender.call(this, ct, position);
+        this.el.mask('Cargando...');
+
+        this.store.on('metachange', function () {
+            if (typeof (this.store.reader.jsonData.columns) === 'object') {
+                var columns = [];
+                if (this.rowNumberer) { columns.push(new Ext.grid.RowNumberer()); }
+                if (this.checkboxSelModel) { columns.push(new Ext.grid.CheckboxSelectionModel()); }
+                Ext.each(this.store.reader.jsonData.columns, function (column) {
+                    columns.push(column);
+                });
+
+                this.getColumnModel().setConfig(columns);
+            }
+            this.el.unmask();
+        }, this);
+        this.store.load({ params: { start: 0, limit: 3} });
+    }
+});
+
+/*
+* Este interceptor opera sobra una grilla y determina si existe un control PagingToolbar. Debido a la notacion LAZY
+* es imposible compartir un STORE en ambos componentes
+*/
+capturactiva.ux.Generic.Grid.prototype.initComponent =
+    capturactiva.ux.Generic.Grid.prototype.initComponent.createInterceptor(function () {
+        if (this.store && this.bbar && this.bbar.xtype == 'capturactivaPaging'
+            && !(this.bbar instanceof Ext.PagingToolbar) && !this.bbar.store
+        ) {
+            if (this.store.xtype && !(this.store instanceof Ext.data.Store)) {
+                this.store = Ext.ComponentMgr.create(this.store);
+            }
+
+            this.bbar.store = this.store;
+        }
+    });
+
+
+Ext.form.TextField.prototype.initComponent =
+    Ext.form.TextField.prototype.initComponent.createInterceptor(function () {
+        if (this.maxLength !== Number.MAX_VALUE && (this.getXType() === 'textfield' || this.getXType() === 'numberfield')) {
+            this.autoCreate = {
+                tag: 'input',
+                type: 'text',
+                maxLength: this.maxLength
+            };
+        }
+    });
+
+capturactiva.ux.Generic.JsonStore = function (config) {
+    capturactiva.ux.Generic.JsonStore.superclass.constructor.call(this, Ext.apply({
+        paramNames: {
+            "start": "start",
+            "limit": "limit",
+            "sort": "sort",
+            "dir": "dir"
+        },
+        totalProperty: 'total',
+        root: 'data',
+        remoteSort: false,
+        autoLoad: false,
+        method: "POST"
+    }, config));
+};
+
+Ext.extend(capturactiva.ux.Generic.JsonStore, Ext.data.JsonStore, {});
+
+capturactiva.ux.Generic.Store = Ext.extend(Ext.data.JsonStore, {
+    loaded: false,
+    constructor: function (config) {
+        config = config || {};
+        capturactiva.ux.Generic.Store.superclass.constructor.call(this, Ext.apply({ autoLoad: false }, config));
+    },
+    listeners: {
+        load: function (st, records, options) {
+            this.loaded = true;
+        }
+    }
+});
+
+capturactiva.ux.Generic.Window = Ext.extend(Ext.Window, {
+    initComponent: function () {
+        var config = {
+            height: 200,
+            layout: 'fit',
+            modal: true
+        };
+
+        Ext.apply(this, config);
+        Ext.apply(this.initialConfig, config);
+        capturactiva.ux.Generic.Window.superclass.initComponent.apply(this, arguments);
+    }
+});
+
+Ext.override(Ext.form.TextField, {
+    emptyText: '',
+    setValue: function (v) {
+        if (!Ext.isDefined(v))
+            return;
+
+        v = Ext.util.Format.htmlDecode(v)
+        //v=this.rendered ? (this.el.dom.innerHTML = (Ext.isEmpty(v) ? this.emptyText : v)) : (this.value = v);
+        v = String(v).replace("&#039;", "\'").replace("&#034;", "\"");
+        while (String(v).indexOf("&#039;") >= 0 || String(v).indexOf("&#034;") >= 0) {
+            v = String(v).replace("&#039;", "\'").replace("&#034;", "\"");
+        }
+        return Ext.form.TextField.superclass.setValue.call(this, v);
+    }
+});
+
+//Ext.override(Ext.form.DisplayField, {
+//    emptyText: '&#032;',
+//    setValue: function (v) {
+//        v = Ext.util.Format.htmlDecode(v);
+//        var formulario = Ext.getCmp(Ext.get('x-form-el-' + this.id).dom.ownerDocument.forms[0].parentNode.parentNode.id)
+
+//        if (formulario.changePositionSeparator)
+//            v = ": " + v;
+
+//        return this.rendered ? (this.el.dom.innerHTML = (Ext.isEmpty(v) ? this.emptyText : v)) : (this.value = v);
+//    }
+//});
+
+capturactiva.ux.Generic.Form = Ext.extend(Ext.FormPanel, {
+    onRender: function (ct, position) {
+        /* *****************************************************************************
+        Este bloque sobreescribe el listeners onRender, volviendo a preguntar
+        en background su nuevo estado y permitiendo nuevamente cargar los
+        elementos pendientes (combobox). El resto de los controles se carga
+        con el valor nativo del Store asignado al formulario. Si no existe formulario
+        se asume que no se ha cargado el registro, su uso es orientado principalmente
+        a una modificacion de registros.
+        */
+        var fieldForm = this.getForm().items.items;
+        if (this.changePositionSeparator) {
+            Ext.each(fieldForm, function (item) {
+                item.on('afterrender', function (field) {
+                    if (Ext.isDefined(field.autoFocus))
+                        field.focus();
+					switch (field.getXType()){
+                        case 'datefield':
+                        case 'capturactiva.ux.Generic.Selector':
+                            var domLabel = field.el.dom.parentNode.parentNode.previousSibling;
+
+                            break;
+
+                        case 'displayfield':
+                        case 'textfield':
+                        case 'numberfield':
+                        case 'textarea':
+                            var domLabel = field.el.dom.parentNode.previousSibling;
+                            break;
+
+                        case 'checkbox':
+                            if (!Ext.isDefined(item.fieldLabel)) {
+                                Ext.Element(field.el.dom.parentNode.offsetParent.previousSibling).remove();
+                                Ext.DomHelper.applyStyles(field.el.dom.parentNode.offsetParent, {
+                                    'padding-left': '0px'
+                                });
+                            }
+                            else {
+                                var domLabel = field.el.dom.parentNode.offsetParent.previousSibling;
+                            }
+
+                            break;
+                    }
+
+                    if (field.xtype != 'checkbox' || (field.xtype == 'checkbox' && Ext.isDefined(item.fieldLabel))) {
+                        try {
+                            Ext.DomHelper.overwrite(domLabel, {
+                                children: [
+                                    { tag: "span", html: domLabel.innerHTML.substring(0, domLabel.innerHTML.length - 1) }
+									//{ tag: "span", html: "|" }
+                                    //{ tag: "span", html: "&nbsp;" }
+
+                                ]
+                            });
+
+                            Ext.DomHelper.applyStyles(domLabel.firstChild.firstChild, {
+                                'float': 'left'
+                            });
+/*
+                            Ext.DomHelper.applyStyles(domLabel.firstChild.lastChild, {
+                                'float'				: 'right',
+								//'background-color'	: '#BBD',
+								'background-color'	: '#DDD',
+								'line-height'		: '1.7'
+                            });
+*/
+                        }
+                        catch (err) {
+                        }
+                    }
+                });
+            });
+        }
+
+        if (this.store) {
+            if (this.store.reader.jsonData) {
+                var jsonData = this.store.reader.jsonData.data
+
+                Ext.each(fieldForm, function (item) {
+                    var fieldValue = 'jsonData.' + item.name;
+
+                    if (item.xtype == 'capturactiva.ux.Generic.Selector') {
+                        if (!item.store.loaded) {
+                            item.store.on("load", function (st, records, options) {
+                                item.loaded = true;
+
+                                if (item.idParent != undefined) {
+                                    capturactiva.GLOBAL.dependencySelector(eval(fieldValue), item.idChild, "idparent");
+                                }
+                                //console.log("campo:",item.fieldLabel, "cargado:",item.store.loaded, "")
+                                item.setValue(eval(fieldValue))
+                            })
+                        }
+                        else {
+                            if (item.idParent != undefined) {
+                                capturactiva.GLOBAL.dependencySelector(eval(fieldValue), item.idChild, "idparent");
+                            }
+
+                            //console.log("campo:", item.fieldLabel, "cargado:", item.store.loaded)
+                            item.setValue(eval(fieldValue))
+                        }
+                    }
+                    else {
+                        item.setValue(eval(fieldValue));
+                    }
+                });
+            }
+        }
+        capturactiva.ux.Generic.Form.superclass.onRender.apply(this, arguments);
+    },
+
+    initComponent: function () {
+        var config = {
+            autoHeight: false,
+            autoScroll: true,
+            layout: 'form',
+            border: false,
+            labelAlign: 'left',
+            defaults: this.defaults,
+            buttons: this.buttons,
+            changePositionSeparator: this.changePositionSeparator
+        };
+
+        if (!Ext.isDefined(config.changePositionSeparator))
+            config.changePositionSeparator = true;
+
+        Ext.apply(this, config);
+        Ext.apply(this.initialConfig, config);
+        capturactiva.ux.Generic.Form.superclass.initComponent.apply(this, arguments);
+    }
+});
+
+capturactiva.ux.Generic.Combobox = Ext.extend(Ext.form.ComboBox, {
+    initComponent: function () {
+        var config = {
+            store: this.store,
+            editable: false,
+            triggerAction: 'all',
+            mode: 'remote',
+            forceSelection: true,
+            emptyText: 'Seleccione un item...',
+            selectOnFocus: true,
+            anchor: '100%',
+            lastQuery: ''
+        };
+
+
+        Ext.apply(this, config);
+        Ext.apply(this.initialConfig, config);
+        capturactiva.ux.Generic.Combobox.superclass.initComponent.apply(this, arguments);
+
+        //this.store.load();
+    }
+});
+
+capturactiva.ux.Generic.Selector = Ext.extend(Ext.form.ComboBox, {
+	initComponent: function () {
+        var config = {
+            store: new capturactiva.ux.Generic.Store({
+                url: this.storeUrl,
+                root: 'data',
+                fields: [
+							{ name: 'id' },
+							{ name: 'idparent', mapping: 'idParent' },
+							{ name: 'description' }
+						],
+                baseParams: this.baseParams
+            }),
+//			autoLoad: true,
+            displayField: 'description',
+            valueField: 'id',
+            editable: false,
+            triggerAction: 'all',
+            mode: 'local',
+            forceSelection: true,
+            emptyText: 'Seleccione un item...',
+            selectOnFocus: true,
+            anchor: '100%',
+            lastQuery: ''
+        };
+
+
+//        if (Ext.isDefined(this.idParent))
+//        this.store = {};
+
+        Ext.apply(this, config);
+        Ext.apply(this.initialConfig, config);
+        capturactiva.ux.Generic.Combobox.superclass.initComponent.apply(this, arguments);
+
+//        if (!Ext.isDefined(this.idParent))
+        //this.store.load();
+    }
+});
+
+
+capturactiva.ux.Generic.SelectorList = Ext.extend(Ext.list.ListView, {
+    initComponent: function () {
+        var config = {
+            store: new Ext.data.Store({
+                url: this.storeUrl,
+                reader: new Ext.data.JsonReader({
+                    root: 'data',
+
+                    fields: [
+								{ name: 'id' },
+								{ name: 'idparent', mapping: 'idParent' },
+								{ name: 'description' }
+							]
+                }),
+                listeners: { load: function () { this.isLoaded = true; } },
+                baseParams: this.baseParams
+            }),
+            multiSelect: false,
+            emptyText: 'No existe informacion para desplegar',
+            reserveScrollOffset: true,
+            border:true,
+
+            columns: [
+                {
+                    header: this.header,
+                    dataIndex: 'description'
+                }
+            ]
+        };
+
+        Ext.apply(this, config);
+        Ext.apply(this.initialConfig, config);
+        capturactiva.ux.Generic.SelectorList.superclass.initComponent.apply(this, arguments);
+        //console.log("selectorlist",this)
+        //this.store.load();
+    }
+});
+
+
+Ext.form.InlineComboBox = function (config) {
+    Ext.form.InlineComboBox.superclass.constructor.call(this, config);
+};
+
+Ext.extend(Ext.form.InlineComboBox, Ext.form.ComboBox, {
+    inlineClass: 'x-form-inline-field',
+    disabledClass: 'x-form-inline-field-disabled',
+    saveOnlyOnChange: true,
+    confirmSave: false,
+    confirmText: 'The data has been successfully saved.',
+
+    doSave: function () {
+        var cfg = this.autoSave;
+
+        this.params = (this.name || this.id) + '=' + this.getRawValue();
+
+        if (this.hiddenName) {
+            this.params += '&' + this.hiddenName + '=' + this.hiddenField.value;
+        }
+
+        if (typeof cfg == 'object') {
+            this.method = cfg.method || 'POST';
+            this.callback = (!cfg.callback) ? { success: Ext.emptyFn, failure: Ext.emptyFn} :
+				{ success: cfg.callback.success || cfg.callback, failure: cfg.callback.failure || Ext.emptyFn };
+            this.scope = cfg.scope || this.callback;
+
+            if (this.confirmSave === true) {
+                var success = function () {
+                    Ext.MessageBox.alert('Success', this.confirmText);
+                } .createDelegate(this);
+
+                this.callback.success = success.createSequence(this.callback.success);
+            }
+
+            var p = (cfg.params) ? cfg.params : '';
+
+            if (p) {
+                if (typeof p == 'object') {
+                    this.params += '&' + Ext.urlEncode(p);
+                }
+                else if (typeof p == 'string' && p.length) {
+                    this.params += '&' + p;
+                }
+            }
+
+            this.url = (this.method == 'POST') ? cfg.url : cfg.url + '?' + this.params;
+        }
+        else if (typeof cfg == 'string') {
+            this.method = 'POST';
+            this.url = (this.method == 'POST') ? cfg : cfg + '?' + this.params;
+        }
+
+        Ext.Ajax.request({
+            url: this.url,
+            method: this.method,
+            success: this.callback.success,
+            failure: this.callback.failure,
+            params: this.params,
+            scope: this.scope
+        });
+    }
+});
+
+Ext.override(Ext.form.InlineComboBox, {
+    onRender: Ext.form.ComboBox.prototype.onRender.createSequence(function () {
+        this.lastValue = '';
+        this.lastRawValue = '';
+        this.el.addClass(this.inlineClass);
+        this.trigger.setDisplayed(false);
+    }),
+
+    onFocus: Ext.form.ComboBox.prototype.onFocus.createSequence(function () {
+        this.el.removeClass(this.inlineClass);
+        this.trigger.setDisplayed(true);
+    }),
+
+    triggerBlur: Ext.form.ComboBox.prototype.triggerBlur.createSequence(function () {
+        if (this.isValid() && !this.el.hasClass(this.inlineClass)) {
+            this.el.addClass(this.inlineClass);
+            this.trigger.setDisplayed(false);
+
+            if (!this.store.getAt(this.view.getSelectedIndexes()[0]) || !this.getRawValue()) {
+                this.selectedIndex = -1;
+                if (this.hiddenField) {
+                    this.hiddenField.value = '';
+                }
+                this.value = '';
+            }
+
+            if (this.autoSave && (this.saveOnlyOnChange === false || this.getValue() != this.lastValue || this.getRawValue() != this.lastRawValue)) {
+                this.doSave();
+            }
+
+            this.lastValue = this.getValue();
+            this.lastRawValue = this.getRawValue();
+        }
+    })
+});
+
+Ext.reg('capturactiva.ux.Generic.Selector', capturactiva.ux.Generic.Selector);
+Ext.reg('capturactivaGrid', capturactiva.ux.Generic.Grid);
+Ext.reg('capturactivaGridEditor', Ext.grid.EditorGridPanel); 
+//Ext.reg('capturactivaGrid', capturactiva.ux.Generic.GridGroup);
+Ext.reg('capturactiva.ux.Generic.JsonStore', capturactiva.ux.Generic.JsonStore);
+Ext.reg('capturactivaPaging', capturactiva.ux.Generic.PagingBar);
+Ext.reg('capturactivaSelectorList', capturactiva.ux.Generic.SelectorList);
+//Ext.apply(Ext.form.VTypes, {});

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Simplex Log&iacute;stica</title>
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="css/screen.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="css/responsive.css" rel="stylesheet" type="text/css" />
+<link href="/assets/medium.css" media="screen and (min-width: 750px) and (max-width: 1020px)" rel="stylesheet" type="text/css" />
+<link href="/assets/small.css" media="screen and (max-width: 750px)" rel="stylesheet" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet' type='text/css'>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/easySlider1.7.js"></script>
+<script type="text/javascript" src="js/jquery.innerfade.js"></script>
+<script type="text/javascript">
+    function formatText(index, panel) {
+      return index + "";
+    }
+    $(document).ready(function(){
+	    $('ul.anythingSlider').innerfade({
+		    speed: 2000,
+		    timeout: 5000,
+		    type: 'sequence',
+		    containerheight: '275px'
+	    });
+	    $("#slider").easySlider({
+		    auto: true,
+		    continuous: true,
+		    speed: 1000,
+		    pause: 5000,
+		    numeric: true
+	    });
+    });
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#cont_header').load('templates/inc_header.tpl.html');
+	$('#sidebar').load('templates/inc_sidebar.tpl.html');
+	$('#cont_footer').load('templates/inc_footer.tpl.html');
+});
+</script>
+<!--[if lt IE 9]>
+<script  type="text/javascript" src="js/ie9.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script src="js/dd_belatedpng.js"></script>
+<script>
+  DD_belatedPNG.fix('div,img,a,span,button,section,article,ul,li,p,h1,h2,h3,h4');
+</script>
+<![endif]-->
+</head>
+
+<body>
+<!--MAIN-->
+<div id="main">
+    <div class="container">
+	<!--HEADER-->
+	<div id="cont_header"></div>
+	<!--END HEADER-->
+	<section id="cont" class="cf">
+	    <div class="row-fluid">
+		<div class="span10">
+		    <div class="code_bar">
+			<section id="txtlzr">
+			    <ul class="anythingSlider">
+				<li>Visibilidad</li>
+				<li>Control</li>
+				<li>Optimización de Recursos</li>
+				<li>Indicadores de Desempeño</li>
+				<li>Seguimiento a la Carga</li>
+				<li>Tracking</li>
+				<li>Eliminar Desperdicios</li>
+				<li>Mejora Continua</li>
+				<li>Gestión de desviaciones</li>
+			    </ul>
+			</section>
+		    </div>
+		</div>
+	    </div>
+	    <div class="row-fluid">
+		<div class="span10">
+		    <div class="clearfix">
+			<div class="content clearfix span8">
+			    <h2>Almacenaje</h2>
+			    <p>Somos expertos en almacenamiento y servicios log&iacute;sticos integrales, basados en la gesti&oacute;n de la informaci&oacute;n y la tecnolog&iacute;a con m&aacute;s de 10 a&ntilde;os de experiencia.</p>
+			    <p>Entendiendo que cada cliente tiene necesidades espec&iacute;ficas, tenemos la capacidad de adaptarnos y construir trajes a la medida de cada uno.</p>
+			    <h4>Ofrecemos</h4>
+			    <ul>
+				<li>Gesti&oacute;n de desviaciones.</li>
+				<li>Administraci&oacute;n de inventarios en centros de distribución en instalaciones propias o in-house.</li>
+				<li>Medici&oacute;n de indicadores de desempe&ntilde;o (KPI).</li>
+				<li>Disponibilidad de informaci&oacute;n on line.</li>
+				<li>Personal altamente capacitado.</li>
+			    </ul>
+			    <br/>
+			    <h3>Servicios</h3>
+			    <ul>
+				<li>Consolidaci&oacute;n y desconsolidaci&oacute;n de contenedores.</li>
+				<li>Recepci&oacute;n de carga.</li>
+				<li>Preparaci&oacute;n de pedidos.</li>
+				<li>Cross docking.</li>
+				<li>Emisi&oacute;n de gu&iacute;as y facturas.</li>
+				<li>Servicios de valor agregado:
+				    <ol>
+					<li>Embalajes.</li>
+					<li>Etiquetados.</li>
+					<li>Reembalaje de promociones.</li>
+					<li>Normalizado.</li>
+				    </ol>
+				</li>
+			    </ul>
+			    <div class="back"><a href="javascript:history.back(1);" title="Volver">&raquo; Volver</a></div>
+			</div>
+			<div class="span4 right">
+			    <div id="sidebar"></div>
+			</div>
+			<div class="cf"></div>
+		    </div>
+		</div>
+	    </div>
+	</section>
+    </div>
+	<!--FOOTER-->
+	<div id="cont_footer"></div>
+	<!--END FOOTER-->
+</div>
+<!--END MAIN-->
+</body>
+</html>

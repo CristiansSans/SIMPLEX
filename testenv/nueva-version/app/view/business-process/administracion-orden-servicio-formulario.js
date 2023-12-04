@@ -1,0 +1,182 @@
+Ext.require("simplex.view.capturactiva.generic.selector");
+Ext.define('simplex.view.business-process.administracion-orden-servicio-formulario', {
+	extend	: 'Ext.form.Panel',
+	frame		: false,
+	border		: true,
+	//region		: 'north',
+	//bodyStyle	: 'background-color: #F1F1F4;',
+	//title		: 'Orden Servicio',
+	//autoScroll	: true,
+	id	: 'administracion-orden-servicio-formulario',
+	bodyPadding	: 5,
+	fieldDefaults: {
+		labelSeparator	: '',
+		labelAlign		: 'left',
+		anchor			: '100%',
+		labelStyle		: 'font-size:11px;vertical-align:middle;padding-top:4px; height:20px;margin-bottom:1px;'
+	},
+	tbar		: [
+		'->',
+		'-',
+//		{text	: 'Agregar Orden', id:'agregar-orden', disabled:true, handler:function(){}},
+//		{text	: 'Modificar Orden', id:'modificar-orden', disabled:true, handler:function(){}},
+		{text	: 'Eliminar Orden', id:'eliminar-orden', disabled:true},
+		{
+      text	: 'Grabar', 
+      id:'grabar-orden', 
+      disabled:false, 
+      handler:function(){
+        if(!this.up('form').getForm().isValid()){
+            console.log('invalido');
+        }
+        else{
+  				Ext.Ajax.request({
+  					url		: 'server/view/save-ordenservicio.php',
+  					method	: 'POST',
+  					params	: {id:'0'+Ext.getCmp('ose_ncorr').getValue(), fieldsForm:Ext.JSON.encode(Ext.getCmp('administracion-orden-servicio-formulario').getForm().getFieldValues())},
+  					success	: function (form, request){
+  						Ext.getCmp('ose_ncorr').setValue(Ext.JSON.decode(form.responseText).data[0].ose_ncorr);
+  						Ext.getCmp('administracion-orden-servicio-ingreso-carga').setDisabled(false);
+  
+  						//changeStateFormButtons(false);
+  
+  						//Ext.getCmp('agregar-carga').setDisabled(false);
+  					},
+  					failure : function (form, action) { }
+  				});				
+        
+        }
+      }
+    },
+		{
+			text	: 'Limpiar', 
+			id:'cancelar-orden', 
+			disabled:false, 
+			handler:function(){
+				Ext.getCmp('administracion-orden-servicio-formulario').getForm().reset();
+				Ext.getCmp('administracion-orden-servicio-antecedentes').getForm().reset();
+				Ext.getCmp('administracion-orden-servicio-datos-contenedor').getForm().reset();
+				Ext.getCmp('administracion-orden-servicio-datos-traslado').getForm().reset();
+				Ext.getCmp('administracion-orden-servicio-carga-libre').getForm().reset();
+				Ext.getCmp('administracion-orden-servicio-requerimiento-traslado').getForm().reset();
+				
+				Ext.getStore('store-administracion-orden-servicio-detalle-carga').load();
+				
+			}
+		}
+	],
+	
+	listeners: {
+		afterrender : function(cmp,eOpt){
+		},
+		expand: {
+			fn: function(){
+			}
+		}
+	},	
+	
+    initComponent: function() {
+        this.callParent();
+    },
+	
+	items: [{
+			layout		: 'column',
+			//bodyStyle	: 'background-color: #F1F1F4;',
+			border		: false,
+			items		:[{
+				columnWidth	: .5,
+				layout		: 'form',
+				defaults	: {anchor:'100%', labelStyle: 'font-size:11px; text-align:left;'},
+				labelWidth	: 130,
+				//bodyStyle	: 'background-color: #F1F1F4; padding:10px;',
+				border		: false,
+				items		: [{
+					xtype		: 'textfield',
+					id			: 'ose_ncorr',
+					fieldLabel	: 'ID',
+					readOnly	: true
+				}, {
+					xtype		: 'capturactiva.generic.selector',
+					name		: 'clie_vrut',
+					hiddenName	: 'clie_vrut',
+					fieldLabel	: 'Cliente',
+					url			: 'server/view/get-generic.php?sp=prc_cliente_listar',
+					allowBlank 	: false
+				}, {
+					xtype		: 'capturactiva.generic.selector',
+					name		: 'tise_ncorr',
+					hiddenName	: 'tise_ncorr',
+					fieldLabel	: 'Tipo Servicio',
+					url			: 'server/view/get-generic.php?sp=prc_tiposervicio_listar',
+					allowBlank 	: false
+				}, {
+					xtype		: 'textfield',
+					name		: 'ose_vnombrenave',
+					fieldLabel	: 'Nave',
+					allowBlank 	: true
+				},{
+					xtype		: 'textarea',
+					name		: 'ose_vobservaciones',
+					fieldLabel	: 'Observaciones',
+					allowBlank 	: true,
+					height		: 100
+				}]
+			},
+			{
+				columnWidth	: .5,
+				layout		: 'form',
+				defaults	: {anchor:'100%', labelStyle: 'font-size:11px;padding-left:10px; vertical-align:middle; text-align:left;'},
+				labelWidth	: 130,
+				//bodyStyle	: 'background-color: #F1F1F4; padding:10px;',
+				border		: false,
+				items		: [{
+					xtype		: 'datefield',
+					name		: 'ose_dfechaservicio',
+					fieldLabel	: 'Fecha',
+					allowBlank 	: false
+				},{
+					xtype		: 'capturactiva.generic.selector',
+					name		: 'clie_vrutsubcliente',
+					hiddenName	: 'clie_vrutsubcliente',
+					fieldLabel	: 'Sub cliente',
+					url			: 'server/view/get-generic.php?sp=prc_cliente_listar',
+					allowBlank 	: true
+				},{
+					xtype		: 'capturactiva.generic.selector',
+					name		: 'sts_ncorr',
+					hiddenName	: 'sts_ncorr',
+					fieldLabel	: 'Subtipo servicio',
+					url			: 'server/view/get-generic.php?sp=prc_tiposervicio_listar',
+					allowBlank 	: true
+				}, {
+					xtype		: 'capturactiva.generic.selector',
+					name		: 'usua_ncorr',
+					hiddenName	: 'usua_ncorr',
+					fieldLabel	: 'Vendedor',
+					url			: 'server/view/get-generic.php?sp=prc_usuarios_listar',
+					allowBlank 	: false
+				},{
+					xtype		: 'capturactiva.generic.selector',
+					name		: 'lug_ncorrorigen',
+					hiddenName	: 'lug_ncorrorigen',
+					fieldLabel	: 'Lugar retiro',
+					url			: 'server/view/get-generic.php?sp=prc_lugar_listar&id=1',
+					allowBlank 	: true
+				},{
+					xtype		: 'capturactiva.generic.selector',
+					name		: 'lug_ncorr_puntocarguio',
+					hiddenName	: 'lug_ncorr_puntocarguio',
+					fieldLabel	: 'Puerto carguio',
+					url			: 'server/view/get-generic.php?sp=prc_lugar_listar&id=1',
+					allowBlank 	: true
+				},{
+					xtype		: 'capturactiva.generic.selector',
+					name		: 'lug_ncorrdestino',
+					hiddenName	: 'lug_ncorrdestino',
+					fieldLabel	: 'Lugar destino',
+					url			: 'server/view/get-generic.php?sp=prc_lugar_listar&id=1',
+					allowBlank 	: true
+				}]
+			}]
+	}]
+});

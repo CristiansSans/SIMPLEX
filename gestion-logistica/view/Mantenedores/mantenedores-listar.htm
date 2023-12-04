@@ -1,0 +1,122 @@
+<html>
+	<head>
+		<title>Mantenedores</title>
+
+		<script src="jquery/simplex/js/jquery-1.9.1.js" type="text/javascript"></script>
+		<script src="jquery/simplex/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+		<script src="jqgrid/js/i18n/grid.locale-es.js" type="text/javascript"></script>
+		<script src="jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+		<script src="jqueryLayout/jquery.layout-latest.min.js" type="text/javascript"></script>
+		<script src="js/common.js" type="text/javascript"></script>
+		<!--<script src="jquerytools/jquery.tools.min.js" type="text/javascript"></script>-->
+
+		<link rel="stylesheet" type="text/css" href="mantenedor.css">
+		<link rel="stylesheet" type="text/css" href="jquery/simplex/css/simplex/jquery-ui-1.10.3.custom.min.css">
+		<link rel="stylesheet" type="text/css" href="jqgrid/css/ui.jqgrid.css">
+		<link rel="stylesheet" type="text/css" href="jqueryLayout/layout-default-latest.css">
+	</head>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('body').layout({
+				applyDemoStyles : true
+			});
+		});
+
+		//Carga el combo de mantenedores
+		function cargaComboMantenedores() {
+
+		}
+
+		//Carga la grilla con los datos del mantenedor
+		function cargaFichaMantenedor(idMantenedor) {
+			$("#lnkAgregarEmpresa").fadeOut();
+			$("#lnkAgregarCliente").fadeOut();		
+			$("#lnkPermisosRol").fadeOut();		
+			switch(idMantenedor) {
+				case(1):
+					$('#divMantenedor').load('mantenedor-lugar.htm');
+					$("#lblMantenedor").text("Lugares");
+					$("#lblAyuda").text("Mantenedor con los lugares del sistema");				
+					break;
+				case(2):
+					$('#divMantenedor').load('mantenedor-empresa.htm');
+					$("#lblMantenedor").text("Mantenedor de proveedores");
+					$("#lblAyuda").text("Mantenedor de los proveedores registradas en el sistema");
+					$("#lnkAgregarEmpresa").fadeIn();
+					break;
+				case(3):
+					$('#divMantenedor').load('mantenedor-cliente.htm');
+					$("#lblMantenedor").text("Mantenedor de clientes");
+					$("#lblAyuda").text("Mantenedor de clientes registrados en el sistema");
+					$("#lnkAgregarCliente").fadeIn();	
+					break;
+				case(4):
+					$('#divMantenedor').load('mantenedor-tramos.htm');
+					$("#lblMantenedor").text("Mantenedor de tramos");
+					$("#lblAyuda").text("Mantenedor de tramos en el sistema");
+					break;
+				case(5):
+					$('#divMantenedor').load('mantenedor-navieras.htm');
+					$("#lblMantenedor").text("Mantenedor de navieras");
+					$("#lblAyuda").text("Mantenedor de navieras");
+					break;		
+				case(6):
+					$('#divMantenedor').load('mantenedor-usuarios.htm');
+					$("#lblMantenedor").text("Usuarios y roles");
+					$("#lblAyuda").text("Mantención de usuarios y roles");
+					$("#lnkPermisosRol").fadeIn();
+					break;									
+			}
+		}
+	</script>
+	<body>
+		<div class="ui-layout-center">
+			<div id="divMantenedor" style="border:#8F8F8F"></div>
+		</div>
+		<div class="ui-layout-north">
+			<!--<div style="background-image:'../../images/logo-1024x110.png'">Mantenedores del sistema</div>-->
+			<img src="../../images/logo-1024x110.png" alt="Simplex Logo" />Mantenedores
+		</div>
+		<!--<div class="ui-layout-south">
+			Desarrollado por Capturactiva
+		</div>-->
+		<div class="ui-layout-east">
+			<div id="divAyuda"><label id="lblAyuda"></label></div>
+			<br/>
+			Opciones:
+			<li id="lnkAgregarEmpresa" style="display:none"><a href="#"  onclick="agregarEmpresa()">Agregar empresa</a></li>
+			<li id="lnkAgregarCliente" style="display:none"><a href="#" onclick="agregarNuevoCliente()">Agregar cliente</a></li>
+			<li id="lnkPermisosRol" style="display:none"><a href="#" onclick="editarPermisosRol()">Permisos del rol</a></li>
+		</div>
+		<div class="ui-layout-west">
+			<table width="100%">
+				<tr>
+					<td width="20"><img src="img/ico_table.png" /></td>
+					<td><a href="#" onclick="cargaFichaMantenedor(1)">Lugares</a></td>
+				</tr>
+				<tr>
+					<td><img src="img/ico_table.png" /></td>
+					<td><a href="#" onclick="cargaFichaMantenedor(4)">Tramos</a></td>
+				</tr>
+				
+				<tr>
+					<td><img src="img/ico_table.png" /></td>
+					<td><a href="#" onclick="cargaFichaMantenedor(2)">Proveedores</a></td>
+				</tr>
+				<tr>
+					<td><img src="img/ico_table.png" /></td>
+					<td><a href="#" onclick="cargaFichaMantenedor(3)">Clientes</a></td>
+				</tr>
+				<tr>
+					<td><img src="img/ico_table.png" /></td>
+					<td><a href="#" onclick="cargaFichaMantenedor(5)">Navieras</a></td>
+				</tr>				
+				<tr>
+					<td><img src="img/ico_group.png" /></td>
+					<td><a href="#" onclick="cargaFichaMantenedor(6)">Usuarios y roles</a></td>
+				</tr>	
+			</table>
+		</div>
+	</body>
+</html>
+

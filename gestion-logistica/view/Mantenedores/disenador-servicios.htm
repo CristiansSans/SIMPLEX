@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<script src="js/disenador-servicios.js" type="text/javascript"></script>
+	</head>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			llenaCombos();
+		});
+	</script>	
+	<body>
+		<!--Encabezado -->
+		<h2>Diseño de servicios</h2>
+		<table>
+			<tr>
+				<th width="150">Cliente</th>
+				<td><select id="cboCliente"></select></td>
+			</tr>
+			<tr>
+				<th>Tipo de negocio</th>
+				<td><select id="cboTipoNegocio" onchange="cargaTiposServicio()"></select></td>
+			</tr>
+			<tr>
+				<th>Tipo de servicio</th>
+				<td><select id="cboTipoServicio" onchange="cargarGrillas()"></select></td>
+			</tr>
+		</table>
+		
+		<!--Grilla de servicios -->
+		<div>
+			<table width="100%">
+				<tr>
+					<td width="60%" valign="top">
+						<table id="tblServicios"></table>
+						<table id="pagTblServicios"></table>
+					</td>
+					<td width="40%" valign="top">
+						<table id="tblTramosServicio"></table>
+						<table id="pagTblTramosServicio"></table>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

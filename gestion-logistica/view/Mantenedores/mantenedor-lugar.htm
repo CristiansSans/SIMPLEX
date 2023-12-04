@@ -1,0 +1,55 @@
+<html>
+	<script src="../Mantenedores/js/mantenedor-lugar.js" type="text/javascript"></script>
+	<script type="text/javascript">
+        $(function() {
+            cargarGrillaLugares();
+        });
+	</script>
+	<body>
+		<table id="tblLugares"></table>
+		<div id="pagTblLugares"></div>
+		<div>
+			(*)Campo obligatorio
+		</div>
+		<!--<button id="btnBorrar">Borrar</button>-->
+		<!-- Ficha de lugar -->
+		<div id="divFichaLugar" style="display:none">
+			<table width="100%">
+				<tr>
+					<th width="15%">Cod. Lugar</th>
+					<td width="35%">
+					<input id="txtCodLugar" type="text" disabled="disabled"/>
+					</td>
+					<th width="15%">Tipo</th>
+					<td width="35%"><select id="cboTipoLugar"></select> (*) </td>
+				</tr>
+				<tr>
+					<th>Nombre</th>
+					<td>
+					<input id="txtNombre" type="text" maxlength="100"/>
+					(*) </td>
+					<th>Direccion</th>
+					<td>
+					<input id="txtDireccion" type="text" maxlength="100"/>
+					(*) </td>
+				</tr>
+				<tr>
+					<th>Sigla</th>
+					<td>
+					<input id="txtSigla" type="text" maxlength="10"/>
+					(*) </td>
+					<th>Ciudad</th>
+					<td>
+					<input id="txtCiudad" type="text" maxlength="30"/>
+					(*) </td>
+				</tr>
+				<tr>
+					<th>Categoría</th>
+					<td><select id="cboCategoria"></select> (*) </td>
+					<th>Lugar padre</th>
+					<td><select id="cboLugarPadre"></select></td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

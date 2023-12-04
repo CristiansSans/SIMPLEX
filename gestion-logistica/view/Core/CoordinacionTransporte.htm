@@ -1,0 +1,61 @@
+<html>
+	<head>		
+		<script src="js/CoordinacionTransporte.js" type="text/javascript"></script>		
+		<script>
+  			$(function() {
+  				$("input, a.button, button, textarea").uniform();
+    			cargaGrillaCoordinacionTransporte(false,"");
+    			//formateaFecha("#txtFechaCoordinacion");
+    			cargaCombos();
+			    $( "#tabs" ).tabs({
+			      event: "mouseover"
+			    });    						
+  			});		  		
+  			
+		</script>	
+	</head>	
+	<body>
+		
+
+		<div align="right" style="display:none">
+			Agrupar por <select id="chngroup">
+				<option value="clear">Sin agrupar</option>
+				<option value="fechaeta">ETA</option>
+				<option value="puntocarguio">P.Carguio</option>
+				<option value="ubicacion">Ubicacion</option>
+				<option value="destino">Destino</option>
+			</select>			
+		</div>			
+		<div id="divTablaOrdenesServicio">					
+			<table id="tblOrdenes"></table>	
+			<div id="pagTblOrdenes"></div>	
+			<div align="right">
+				<a href="#" onclick="coordinarTransporte()">Coordinar</a>
+			</div>	
+		</div>
+
+		<div id="divCoordinarTransporte" style="display:none">
+			<label id="lblMensaje" style="background-color: rgb(255, 254, 173);"></label>
+			<table width="100%">
+				<tr>
+					<th width="40%">Inicio servicio</th>
+					<td width="60%">
+						<input type="text" id="txtFechaCoordinacion" />
+					</td>					
+				</tr>
+				<tr>
+					<th>Tramo</th>
+					<td>
+						<select id="cboDestino" onchange="cargaComboEmpresa()"></select>
+					</td>					
+				</tr>
+				<tr>
+					<th>Transportista</th>
+					<td>
+						<select id="cboTransportista"></select>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

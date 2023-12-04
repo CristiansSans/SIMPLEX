@@ -1,0 +1,33 @@
+<html>
+	<header>
+		
+	</header>
+	<script src="js/mantenedor-tramos.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function() {
+			cargaGrillaTramos();
+		});		
+	</script>
+	
+	<body>
+		<table id="tblTramo"></table>
+		<div id="pagTblTramo"></div>
+		<b>Nota</b><br/>
+		- Para ver los hitos del tramo, hacer doble clic sobre el tramo requerido 
+		<!--<div>
+			<button id="btnAgregarTramo" onclick="agregarNuevoTramo()">Agregar tramo</button>
+		</div>-->
+		<div id="divHitos" style="display:none">
+			<b>Tramo </b> <label id="lblOrigenTramo"></label> -> <label id="lblDestinoTramo"></label>
+			 <table id="tblHitosTramo"></table>
+			 <div id="pagtblHitosTramo"></div>
+			 <div>
+			 	<b>Nota</b><br/>
+			 	Debe haber un hito inicial con 0 Kms y un Hito de término, donde la cantidad de Kms debe ser equivalente al total de Kms del tramo
+			 	<br/>(2) Tiempo en minutos
+			 </div>
+			 <!--<button id="btnAgregarHitoTramo" onclick="agregarHitoTramo()"></button>-->
+		</div>	
+		
+	</body>
+</html>

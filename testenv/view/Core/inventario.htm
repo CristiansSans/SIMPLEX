@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<title>Inventario</title>
+		<script src="js/inventario.js" type="text/javascript"></script>
+		<script>
+            $(document).ready(function() {
+                cargaGrillaInventario();
+            });
+		</script>
+		<!--<style>
+		.ui-jqgrid .ui-jqgrid-hdiv .ui-th-column {height:40px;}
+		</style>-->
+	</head>
+	<body>
+		<div align="right">
+			Agrupar por
+			<select id="chngroup">
+				<option value="clear">Sin agrupar</option>
+				<option value="ubicacion">Ubicacion</option>
+				<option value="esca_vdescripcion">Estado</option>
+			</select>
+		</div>
+
+		<table id="tblInventario"></table>
+		<table id="pagTblInventario"></table>
+	</body>
+
+	<div id="divDevolucion" style="display: none">
+		<table width="100%">
+			<tr>
+				<th width="40%">Entrega</th>
+				<td width="60%"><select id="cboLugarDevolucion"></select></td>
+			</tr>
+			<tr>
+				<th>Fecha entrega</th>
+				<td>
+				<input type="text" id="txtFechaEntrega" />
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div id="divGuiaTransporte" style="display: none">
+		<table width="100%">
+			<tr>
+				<th width="30%">N° guia</th>
+				<td width="70%">
+				<input type="text" id="txtNumGuia" onkeypress="return esInteger(event);"  />
+				</td>
+			</tr>
+			<tr>
+				<th>Fecha</th>
+				<td>
+				<input type="text" id = "txtFechaGuia" />
+				</td>
+			</tr>
+			<tr>
+				<th>Emitida por</th>
+				<td><select id="cboEmiteGuia"></select></td>
+			</tr>
+		</table>
+	</div>
+
+</html>

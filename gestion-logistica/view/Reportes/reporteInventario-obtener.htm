@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<script src="../Core/js/common.js" type="text/javascript"></script>
+		<script src="../Reportes/js/reporteInventario-obtener.js" type="text/javascript"></script>		
+	</head>
+	<script type="text/javascript">
+        $(document).ready(function() {
+            inicializar();
+        });
+	</script>	
+	<body>
+		<h2>Reporte inventario</h2>
+		<br/>
+		<table width="50%">
+			<tr>
+				<th width="40%">Cliente</th>
+				<td width="60%"><select id="cboCliente"></select></td>
+			</tr>
+			<tr>
+				<th>Fecha orden</th>
+				<td>
+					<input type="text" id="txtFechaInicio" /> a <input type="text" id="txtFechaTermino" />
+				</td>
+			</tr>
+		</table>
+		<!--<a href="../../controller/reportes/reportedatos-obtener.php">Obtener exportacion</a>-->
+		<a href="#" onclick="obtenerExportacion()">Generar exportacion</a>
+	</body>
+</html>

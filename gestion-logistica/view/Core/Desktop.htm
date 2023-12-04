@@ -1,0 +1,63 @@
+<html>
+	<head>
+		<title>Sistema de Gestion Logistica</title>
+
+		<script src="jquery/simplex/js/jquery-1.9.1.js" type="text/javascript"></script>
+		<script src="jquery/simplex/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+		<script src="jqgrid/js/i18n/grid.locale-es.js" type="text/javascript"></script>
+		<script src="jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+		<script src="jqueryLayout/jquery.layout-latest.min.js" type="text/javascript"></script>
+		<script src="js/common.js" type="text/javascript"></script>
+		<script src="js/desktop.js" type="text/javascript"></script>
+		<script src="../Login/js/login.js" type="text/javascript"></script>
+		<script src="js/pixelmatrix-uniform-3e9cd85/jquery.uniform.min.js"></script>
+		<script src="js/sticky/sticky.min.js"></script>
+		<!--<script src="js/JqueryAlert/jquery.alerts.js"></script>-->
+		<script src="js/datetimePicker/jquery.datetimepicker.js"></script>
+		<!--<script src="jquerytools/jquery.tools.min.js" type="text/javascript"></script>-->
+
+		<link rel="stylesheet" type="text/css" href="OrdenServicio.css">
+		<link rel="stylesheet" type="text/css" href="jquery/simplex/css/simplex/jquery-ui-1.10.3.custom.min.css">
+		<link rel="stylesheet" type="text/css" href="jqgrid/css/ui.jqgrid.css">
+		<link rel="stylesheet" type="text/css" href="jqueryLayout/layout-default-latest.css">
+		<link rel="stylesheet" type="text/css" href="js/pixelmatrix-uniform-3e9cd85/themes/default/css/uniform.default.min.css">
+		<link rel="stylesheet" type="text/css" href="js/sticky/sticky.min.css">
+		<link rel="stylesheet" type="text/css" href="js/JqueryAlert/jquery.alerts.css">
+		<link rel="stylesheet" type="text/css" href="js/datetimePicker/jquery.datetimepicker.css">
+	</head>
+	<script type="text/javascript">
+        $(document).ready(function() {
+            inicializar();
+        });
+	</script>
+	<body>
+
+		<div class="ui-layout-center">
+			<div id="divOrdenServicio" style="border:#8F8F8F"></div>
+		</div>
+
+		<div class="ui-layout-west">
+			<img src="img/logo-simplex.jpg" />
+			<br/>
+			<br/>
+			<b><label id="lblNombreUsuario">-</label></b>
+			<br>
+			<label id = "lblrol">-</label>
+			<a href = "#" onclick="cerrarSesion()">Cerrar sesion</a>
+			<ul id="accordionMenuTest">
+			</ul>
+
+			<div class="fondomenu"></div>
+		</div>
+		<script type="text/javascript">
+            $("#accordionMenuTest > li > div").click(function() {
+                if (false == $(this).next().is(':visible')) {
+                    $('#accordionMenuTest ul').slideUp(300);
+                }
+                $(this).next().slideToggle(300);
+            });
+            $('#accordionMenuTest ul:eq(0)').show();
+		</script>
+	</body>
+</html>
+

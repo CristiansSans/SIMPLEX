@@ -1,0 +1,117 @@
+<html>
+	<head>
+		<script src="js/ProgramacionTransporte.js" type="text/javascript"></script>
+		<script>
+            $(function() {
+
+                $("input, a.button, button, textarea").uniform();
+                formateaFechaHora("#txtFechaInicio");
+                formateaFechaHora("#txtFechaTermino");
+                
+                cargaCombos();
+                cargaGrillaProgramacionTransporte();
+                $("#tabs").tabs({
+                    event : "mouseover"
+                });
+            });
+
+		</script>
+	</head>
+	<body>
+		<!--<a href="javascript:location.reload()">Actualizar</a>-->
+		
+		<div id="divTablaOrdenesServicio">
+			<table id="tblOrdenes"></table>
+			<div id="pagTblOrdenes"></div>
+		</div>
+		<div align="right" style="display:none">
+			<a href="#" onclick="programarTransporte()">Programar</a>
+		</div>
+
+		<div id="divGuiaTransporte" style="display: none">			
+			<table width="100%">
+				<tr>
+					<th width="30%">N° guia</th>
+					<td width="70%">
+					<input type="text" id="txtNumGuia" onkeypress="return esInteger(event);"  />
+					</td>
+				</tr>
+				<tr>
+					<th>Fecha</th>
+					<td>
+					<input type="text" id = "txtFechaGuia" />
+					</td>
+				</tr>
+				<tr>
+					<th>Emitida por</th>
+					<td><select id="cboEmiteGuia"></select></td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="divProgramacionTransporte" style="display: none">
+			<input type="hidden" id="txtCodServicio"/>
+			<input type="hidden" id="hdnTipoNegocio" />
+			<table width="100%">
+				<tr>
+					<th width="30%">Id.Carga</th>
+					<td width="70%"><label id="lblIdCarga"></label></td>
+				</tr>
+				<tr>
+					<th>Tipo negocio</th>
+					<td><label id="lblTipoServicio"></label></td>
+				</tr>
+				<tr>
+					<th>Origen</th>
+					<td><label id="lblOrigen"></label>
+					<input type="hidden" id="txtCodLugarOrigen">
+					</td>
+				</tr>
+				<tr>
+					<th>Fecha inicio</th>
+					<td>
+					<input type="text" id="txtFechaInicio" />
+					</td>
+				</tr>
+				<tr>
+					<th>Tramo</th>
+					<td><select id="cboDestino" onchange="cargaComboEmpresas()"></select></td>
+				</tr>
+				<tr>
+					<th>Fecha termino</th>
+					<td>
+					<input type="text" id="txtFechaTermino" />
+					</td>
+				</tr>
+				<tr>
+					<th>Transportista</th>
+					<td><select id="cboTransportista" onchange="refrescaCombos()"></select></td>
+				</tr>
+				<tr>
+					<th>Patente camion</th>
+					<td><select id="cboPatenteCamion"></select></td>
+				</tr>
+				<tr>
+					<th>Patente chasis</th>
+					<td><select id="cboPatenteChasis"></select></td>
+				</tr>
+				<tr>
+					<th>Conductor</th>
+					<td><select id="cboConductor" onchange="cargaFonoChofer()"></select></td>
+				</tr>
+				<tr>
+					<th>Celular</th>
+					<td>
+					<input type="text" id="txtCelular" />
+					</td>
+				</tr>
+				<tr>
+					<th><label id='lblETA'>ETA</label></th>
+					<td>
+					<input type="text" id = "txtFechaETA" />
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

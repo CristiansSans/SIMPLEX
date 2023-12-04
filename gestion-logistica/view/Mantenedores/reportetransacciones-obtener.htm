@@ -1,0 +1,110 @@
+<html>
+	<head>
+		<title>Exportacion de registros</title>
+
+		<script src="jquery/simplex/js/jquery-1.9.1.js" type="text/javascript"></script>
+		<script src="jquery/simplex/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+		<script src="jqgrid/js/i18n/grid.locale-es.js" type="text/javascript"></script>
+		<script src="jqgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+		<script src="jqueryLayout/jquery.layout-latest.min.js" type="text/javascript"></script>
+		<script src="js/reportedatos-obtener.js" type="text/javascript"></script>
+		<!--<script src="jquerytools/jquery.tools.min.js" type="text/javascript"></script>-->
+
+		<link rel="stylesheet" type="text/css" href="mantenedor.css">
+		<link rel="stylesheet" type="text/css" href="jquery/simplex/css/simplex/jquery-ui-1.10.3.custom.min.css">
+		<link rel="stylesheet" type="text/css" href="jqgrid/css/ui.jqgrid.css">
+		<link rel="stylesheet" type="text/css" href="jqueryLayout/layout-default-latest.css">
+		
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('body').layout({
+				applyDemoStyles : true
+			});
+			combosReportePoblar();
+		});
+
+		function inicializa(){
+			$("#divFormExportar").fadeOut();
+			$("#divFormInventario").fadeOut();
+		}
+
+		function muestraExportarRegistros(){
+			inicializa();
+			$("#divFormExportar").fadeIn();
+			//combosReportePoblar();
+		}
+		function inventarioExportar(){
+			inicializa();
+			$("#divFormInventario").fadeIn();
+		}
+	</script>		
+		
+	</head>	
+	<body>
+		
+
+		<div class="ui-layout-north">
+			<img src="../../images/logo-1024x110.png" alt="Simplex Logo" />
+		</div>
+		<!--<div class="ui-layout-south">
+			Desarrollado por Capturactiva
+		</div>-->
+		
+		<!--"N°,Contenedor,Cliente,Nave,Doc.Venta,Fecha DV, Ingreso,N° fac.Venta,Fecha Factura, Guia, Fecha Guia, Tramo, Transportista,Camion,Costo\n"-->
+		<div class="ui-layout-center">
+			<div id="divFormExportar" style="display:none">
+				<h2>Exportar</h2>
+				<table>
+					<tr>
+						<th>Transportista</th>
+						<td>
+							<select id="cboEmpresa"></select>
+						</td>
+					</tr>
+					<tr>
+						<th>Cliente</th>
+						<td>
+							<select id="cboCliente"></select>
+						</td>
+					</tr>
+					<tr>
+						<th>Fecha orden</th>
+						<td>
+							<input id="txtFechaOrdenDesde" type="text"/>-<input id="txtFechaOrdenHasta" type="text"/>
+							<!--<img src="../Mantenedores/img/ico_calendar.png" height="16px" />-->
+						</td>
+					</tr>
+					<tr>
+						<th>Origen</th>
+						<td>
+							<select id="cboOrigen"></select>
+						</td>
+					</tr>
+					<tr>
+						<th>Destino</th>
+						<td>
+							<select id="cboDestino"></select>
+						</td>
+					</tr>
+				</table>
+				<br/>
+				
+				<button id="btnExportar" onclick="generaReporte()">Exportar</button>	
+			</div>
+			<div id="divFormInventario" style="display:none">
+				<h2>Exportar inventario</h2>
+				<button onclick="exportaInventario()">Exportar inventario</button>
+			</div>
+		
+		</div>		
+		
+		<div class="ui-layout-east">
+			
+		</div>
+		<div class="ui-layout-west">
+			<a href="#" onclick="muestraExportarRegistros()">Exportar registros</a>
+			<a href="#" onclick="inventarioExportar()">Exportar inventario</a>
+		</div>		
+
+	</body>
+</html>

@@ -1,0 +1,43 @@
+﻿<html>
+	<head>
+		<title>Seguimiento</title>
+		<script src="js/Seguimiento.js" type="text/javascript"></script>
+		
+		<script>
+			$(document).ready(function() {
+				inicializar();
+			});
+		</script>		
+	</head>
+	<body>
+		<div style="display: none">
+			Cliente : <select id="cboCliente"></select>
+			Empresa : <select id="cboEmpresa"></select>
+			Fecha   : <input type="text" id="txtFecha" />
+			<button id="btnFiltrar" onclick="cargaGrillaSeguimiento()">Filtrar</button>
+		</div>
+		<div align="right">
+			<img src="img/ico_monitoreo.png" height="20">
+			<label onclick="muestraSeguimiento()">Filtrar</label>
+		</div>
+		<table id="tblSeguimiento"></table>
+		<table id="pagSeguimiento"></table>
+		<div id="divSeguimiento" style="display: none">
+			<table width="100%">
+				<tr>
+					<th>Servicio</th>
+					<td><label id="lblServicio"></label></td>
+					<th>Patente</th>
+					<td><label id="lblPatente"></label></td>
+				</tr>
+				<tr>
+					<th>Tramo</th>
+					<td><label id="lblTramo"></label></td>
+					<th>Chofer</th>
+					<td><label id="lblChofer"></label></td>
+				</tr>
+			</table>
+			<table id="tblTramosSeguimiento"></table>
+		</div>
+	</body>
+</html>

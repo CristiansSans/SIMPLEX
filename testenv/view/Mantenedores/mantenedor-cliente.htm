@@ -1,0 +1,116 @@
+<html>
+	<script src="../Mantenedores/js/mantenedor-cliente.js" type="text/javascript"></script>
+
+	<script language="JavaScript" type="text/javascript">
+        $(function() {
+            //$( "#tabs" ).tabs();
+            cargaGrillaClientes();
+            $("input, textarea").uniform();
+        });
+	</script>
+	<body>
+		<div>
+
+			<table id="tblClientes"></table>
+			<div id="pagTblClientes"></div>
+			<div align="right">
+				<button id="btnNuevocliente" onclick="agregarNuevoCliente()">
+					Agregar cliente
+				</button>
+			</div>
+
+		</div>
+		<div id="divFichaCliente" style="display:none">
+			<!--Encabezado de la ficha-->
+			<table id="tblEncabezadoFicha" width="100%">
+				<tr>
+					<th width="15%">Rut</th>
+					<td width="35%">
+					<input id="txtRut" type="text" maxlength="10" onkeypress="return validaCaracteresRUT(event);"/>
+					(*) </td>
+					<th width="15%">Nombre</th>
+					<td width="35%">
+					<input id="txtNombre" type="text" maxlength="50"/>
+					(*) </td>
+				</tr>
+				<tr>
+					<th>Razon social</th>
+					<td>
+					<input id="txtRazonSocial" type="text" maxlength="50"/>
+					</td>
+					<th>Contacto legal</th>
+					<td>
+					<input id="txtContactoLegal" type="text" maxlength="100"/>
+					(*) </td>
+				</tr>
+				<tr>
+					<th>Direccion</th>
+					<td>
+					<input id="txtDireccion" type="text" maxlength="100"/>
+					(*) </td>
+					<th>Comuna</th>
+					<td>
+					<input id="txtComuna" type="text" maxlength="100"/>
+					(*) </td>
+				</tr>
+				<tr>
+					<th>Giro</th>
+					<td>
+					<input id="txtGiro" type="text" maxlength="100"/>
+					(*) </td>
+					<th>Actividad</th>
+					<td>
+					<input id="txtActividad" type="text" maxlength="100"/>
+					(*) </td>
+				</tr>
+				<tr>
+					<th>Dias libres</th>
+					<td>
+					<input id="txtDiasLibres" type="text" maxlength="3" onkeypress="return esInteger(event);" />
+					(*) </td>
+					<th>Fono</th>
+					<td>
+					<input id="txtFono" type="text" maxlength="100"/>
+					(*) </td>
+				</tr>
+				<tr style="display:none">
+					<th>Ciudad</th>
+					<td>
+					<input id="txtCiudad" type="text" maxlength="100"/>
+					</td>
+					<th>Empresa padre</th>
+					<td><select id="cboEmpresaPadre"></select></td>
+
+				</tr>
+
+			</table>
+
+			<!--
+			<div id="tabs">
+			<ul>
+			<li>
+			<a href="#tabs-1">Tarifas de servicios</a>
+			</li>
+			<li>
+			<a href="#tabs-2">Servicios</a>
+			</li>
+			</ul>
+			<div id="tabs-1">
+			<table id="tblTarifasServicios" width="100%"></table>
+			<div id="pagtblTarifasServicios"></div>
+			</div>
+			<div id="tabs-2">
+			<table id="tblServicios" width="100%"></table>
+			<div id="pagTblServicios"></div>
+			</div>
+
+			</div>	-->
+
+			<!--Tarifas -->
+			<table id="tblTarifasServicios" width="100%"></table>
+			<div id="pagtblTarifasServicios"></div>
+			<!--Tarifas de servicios-->
+
+		</div>
+	</body>
+</html>

@@ -1,0 +1,134 @@
+Ext.define('simplex.view.business-process.tasklist-detalle-orden', {
+    extend	: 'Ext.Panel',
+	alias	: 'widget.tasklist',
+	closable: false,  
+	//title   : 'Task List',
+    layout	: 'fit',
+	itemId	: 'tasklist',
+	requires: ['Ext.selection.CheckboxModel'],
+	
+	initComponent: function() {
+ 		Ext.define('model-tasklist', {
+			extend: 'Ext.data.Model',
+			fields: [
+/*				{name: 'id-solicitud', mapping:'ose_ncorr', type:'number'},
+				{name: 'fecha',mapping:'ose_dfechaservicio', type:'date'},
+				{name: 'cliente', mapping:'clie_vnombre',type:'string'},
+				{name: 'servicio', mapping:'tise_vdescripcion',type:'string'},
+				{name: 'items', mapping:'items',type:'string'},
+				{name: 'estado', mapping:'esca_vdescripcion',type:'string'}
+*/
+				{name: 'ose_ncorr', type:'number'},
+				{name: 'ose_dfechaservicio', type:'date'},
+				{name: 'clie_vnombre',type:'string'},
+				{name: 'tise_vdescripcion',type:'string'},
+				{name: 'items',type:'string'},
+				{name: 'esca_vdescripcion',type:'string'}
+				
+			]
+		});
+
+		Ext.create('Ext.data.Store', {
+			storeId		: 'store-tasklist',
+			model		: 'model-tasklist',
+			autoLoad	: true,
+			remoteSort	: false,
+			proxy 		: {
+				type			: 'ajax',
+				actionMethods	: 'POST',
+				url 			: 'server/view/get-tasklist.php',
+				reader 			: {
+					type			: 'json',
+					root 			: 'data',
+					totalProperty	: 'total'
+				},
+				simpleSortMode : true
+			}
+		});
+
+		this.items = [
+			Ext.create('Ext.grid.Panel', {
+				frame		: false,
+				store		: 'store-tasklist',
+				layout		: 'fit',
+				resizable	: false,
+				border		: false,
+				selModel	: Ext.create('Ext.selection.CheckboxModel', {
+					checkOnly: true,
+					listeners: {
+						selectionchange: function(sm) {
+							//Ext.getCmp(id + 'delete.grid').setDisabled(sm.getCount()==0);
+						}
+					}		
+				}),
+				selType		: 'rowmodel',				
+				buttons		: [
+					{text	: 'Agregar Orden', disabled:false, handler:function(){}},
+					{text	: 'Eliminar Orden'}
+				],
+				
+				bbar		: Ext.create('Ext.PagingToolbar', {
+					store		: 'store-tasklist',
+					displayInfo	: true
+				}),
+				enableRowHeightSync: true,
+				viewConfig: {
+					stripeRows: true,
+					forceFit: true,
+				},
+				listeners: {
+					afterrender : function(panel) {
+						Ext.fly('panel-title').update(	'<p><b>Task List</b></p>'+
+														'<p>Permite administrar un proyecto de portada para visualizarlo en el sitio principal</p>',
+														false);
+					},
+					
+					beforerender : function(cmp,eOpt){
+						cmp.headerCt.setHeight(30);
+						
+					},
+
+					itemdblclick	: function( grid, record, item, index, event){
+						capturactiva.GLOBAL.loadModule('administracion-orden-servicio', record);
+					},
+				},
+				{name: 'ose_ncorr', type:'number'},
+				{name: 'ose_dfechaservicio', type:'date'},
+				{name: 'clie_vnombre',type:'string'},
+				{name: 'tise_vdescripcion',type:'string'},
+				{name: 'items',type:'string'},
+				{name: 'esca_vdescripcion',type:'string'}
+				
+				columns: [
+					{
+						text		: "Solicitud",
+						dataIndex	: "ose_ncorr", 
+						flex		: 1, 
+						width		: 40, 
+						align		: "right", 
+						sortable	: true,
+						renderer	: function(value, metaData, record, row, col, store, gridView){
+							metaData.style='line-height:30px;';
+							return value;
+						}
+					},
+					{
+						text		: "Fecha",
+						dataIndex	: "ose_dfechaservicio",
+						flex		: 1, 
+						width		: 40, 
+						sortable	: true,
+						renderer	: function(value, metaData, record, row, col, store, gridView){
+							return Ext.Date.format(new Date(value), "d-m-Y h:i");
+						}
+					},
+					{text: "Cliente",dataIndex:"clie_vnombre", flex:1, sortable:true},
+					{text: "Servicio",dataIndex:"tise_vdescripcion", flex:1, sortable:true},
+					{text: "Items", dataIndex:"items",flex:1, sortable:true},
+					{text: "Estado", dataIndex:"esca_vdescripcion",flex:1, sortable:true}
+				]
+			})
+		];
+		this.callParent();
+    }
+});
